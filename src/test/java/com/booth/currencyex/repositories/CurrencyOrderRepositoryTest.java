@@ -1,4 +1,4 @@
-package com.booth.currencyex;
+package com.booth.currencyex.repositories;
 
 import com.booth.currencyex.entities.CurrencyOrder;
 import com.booth.currencyex.entities.OrderStatus;

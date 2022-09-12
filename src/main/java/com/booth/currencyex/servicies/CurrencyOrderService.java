@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -146,6 +147,16 @@ public class CurrencyOrderService {
         newCurrencyOrder.setOrderTime(orderTime);
         newCurrencyOrder.setOrderDate(orderDate);
 
+        //set anyway this values!
+        newCurrencyOrder.setCurrencyBuy(currencyBuy);
+        newCurrencyOrder.setCurrencySell(currencySell);
+        newCurrencyOrder.setSumSell(sumSell);
+        newCurrencyOrder.setSumBuy(sumBuy);
+        newCurrencyOrder.setClientName(clientName);
+        newCurrencyOrder.setClientPhone(clientPhone);
+        newCurrencyOrder.setOtpPassword(otpPassword);
+        //end set anyway
+
         //OrderStatus
         if(isValid){
             newCurrencyOrder.setOrderStatus(orderStatus);
@@ -211,10 +222,9 @@ public class CurrencyOrderService {
                 orderTime + "\"}";
     }
 
-
+    @Transactional
     public void deleteCurrencyOrder(Long id){
-        currencyOrderRepository.setOrderStatusById(OrderStatus.valueOf("CLOSED"), id);
+        currencyOrderRepository.setOrderStatusById(OrderStatus.CLOSED, id);
     }
-
 
 }

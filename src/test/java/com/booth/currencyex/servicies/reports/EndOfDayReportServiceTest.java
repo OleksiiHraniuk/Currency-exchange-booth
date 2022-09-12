@@ -5,9 +5,12 @@ import com.booth.currencyex.repositories.CurrencyOrderRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -27,8 +30,9 @@ class EndOfDayReportServiceTest {
     CurrencyOrderRepository currencyOrderRepository;
 
     @Test
+    @Sql({"classpath:import_currency_orders_1.sql"})
     void getReport() {
-        LocalDate testDate = LocalDate.of(2022,8,16);
+        LocalDate testDate = LocalDate.of(2022,8,21);
         String report = endOfDayReportService.getReport(testDate);
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -77,4 +81,14 @@ class EndOfDayReportServiceTest {
         }
 
     }
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+    @AfterEach
+    public void truncateAfterCurrencyOrders(){
+        String sql = "TRUNCATE TABLE CURRENCY_ORDER_DBT";
+        jdbcTemplate.execute(sql);
+    }
+
 }

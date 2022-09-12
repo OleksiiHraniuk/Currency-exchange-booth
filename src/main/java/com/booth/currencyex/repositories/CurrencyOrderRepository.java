@@ -1,6 +1,5 @@
 package com.booth.currencyex.repositories;
 
-import com.booth.currencyex.entities.CurrencyExchangeRate;
 import com.booth.currencyex.entities.CurrencyOrder;
 import com.booth.currencyex.entities.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;

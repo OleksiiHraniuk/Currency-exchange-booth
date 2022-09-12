@@ -1,4 +1,4 @@
-package com.booth.currencyex;
+package com.booth.currencyex.repositories;
 
 import com.booth.currencyex.entities.CurrencyExchangeRate;
 import com.booth.currencyex.repositories.CurrencyExchangeRateRepository;
@@ -23,7 +23,7 @@ public class CurrencyExchangeRateRepositoryTest {
 
     @Test
     @Sql({"classpath:import_currency_exchange_rates.sql"})
-    public void testFindByCurrencyAndCurrencyBaseAndDate(){
+    public void FindByCurrencyAndCurrencyBaseAndDate(){
         LocalDate testDate = LocalDate.of(2022, 8, 19);
         List<CurrencyExchangeRate> currencyExchangeRateList = currencyExchangeRateRepository
                 .findByCurrencyAndCurrencyBaseAndDate("USD","UAH", testDate);
@@ -33,7 +33,7 @@ public class CurrencyExchangeRateRepositoryTest {
 
     @Test
     @Sql({"classpath:import_currency_exchange_rates.sql"})
-    public void testFindByCurrencyAndCurrencyBaseAndDateOrderByTimeDesc(){
+    public void FindByCurrencyAndCurrencyBaseAndDateOrderByTimeDesc(){
         LocalDate testDate = LocalDate.of(2022, 8, 22);
         List<CurrencyExchangeRate> currencyExchangeRateList = currencyExchangeRateRepository
                 .findByCurrencyAndCurrencyBaseAndDateOrderByTimeDesc("EUR","UAH", testDate);

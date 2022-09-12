@@ -3,7 +3,6 @@ package com.booth.currencyex.controllers;
 import com.booth.currencyex.controllers.answers.OtpAnswer;
 import com.booth.currencyex.entities.CurrencyOrder;
 import com.booth.currencyex.entities.OrderStatus;
-import com.booth.currencyex.repositories.CurrencyOrderRepository;
 import com.booth.currencyex.servicies.CurrencyOrderService;
 
 import io.swagger.annotations.Api;

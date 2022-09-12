@@ -2,9 +2,13 @@ package com.booth.currencyex.servicies;
 
 import com.booth.currencyex.entities.CurrencyExchangeRate;
 import com.booth.currencyex.repositories.CurrencyExchangeRateRepository;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -36,5 +40,20 @@ public class CurrencyExchangeRateServiceTests {
     public void testCurrencyRepository(){
         List<CurrencyExchangeRate> currency = currencyRepository.findByCurrencyAndCurrencyBase("USD","UAH");
         assertThat(currency.size()).isEqualTo(4);
+    }
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+    @BeforeEach
+    public void truncateBeforeCurrencyOrders(){
+        String sql = "TRUNCATE TABLE CURRENCY_ORDER_DBT";
+        jdbcTemplate.execute(sql);
+    }
+
+    @AfterEach
+    public void truncateAfterCurrencyOrders(){
+        String sql = "TRUNCATE TABLE CURRENCY_ORDER_DBT";
+        jdbcTemplate.execute(sql);
     }
 }

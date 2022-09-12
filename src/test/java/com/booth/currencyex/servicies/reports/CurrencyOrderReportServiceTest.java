@@ -6,9 +6,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDate;
@@ -19,6 +22,15 @@ class CurrencyOrderReportServiceTest {
 
     @Autowired
     CurrencyOrderReportService currencyOrderReportService;
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+    @AfterEach
+    public void truncateAfterCurrencyOrders(){
+        String sql = "TRUNCATE TABLE CURRENCY_ORDER_DBT";
+        jdbcTemplate.execute(sql);
+    }
 
     @Test
     @Sql({"classpath:import_currency_orders_1.sql"})
@@ -49,4 +61,6 @@ class CurrencyOrderReportServiceTest {
         }
 
     }
+
+
 }
