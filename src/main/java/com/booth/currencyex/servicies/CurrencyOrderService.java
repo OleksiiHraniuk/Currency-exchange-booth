@@ -25,9 +25,6 @@ public class CurrencyOrderService {
     @Autowired
     private CurrencyExchangeRateRepository currencyExchangeRateRepository;
 
-    @Autowired
-    private OtpPasswordService otpPasswordService;
-
     private final Logger logger = LoggerFactory.getLogger(CurrencyOrderService.class);
 
     final String timeZone = "+2";
@@ -169,12 +166,16 @@ public class CurrencyOrderService {
     }
 
     private boolean isValidClientName(String clientName){
-        return true;
+        return Pattern.compile("^[a-zA-Z][a-zA-Z. ]{2,50}$|^[а-яА-ЯїЇґҐ][а-яА-ЯїЇґҐ. ]{2,50}$")
+                .matcher(clientName).matches();
     }
 
     private boolean isValidClientPhone(String clientPhone){
-        //some reqexp
-        return true;
+        String patterns
+                = "^(\\+\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$"
+                + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?){2}\\d{3}$"
+                + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?)(\\d{2}[ ]?){2}\\d{2}$";
+        return Pattern.compile(patterns).matcher(clientPhone).matches();
     }
 
     private boolean isValidOtpPassword(String otpPassword){
