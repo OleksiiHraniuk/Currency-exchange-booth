@@ -1,7 +1,7 @@
 package com.booth.currencyex.controllers;
 
 import com.booth.currencyex.entities.CurrencyExchangeRate;
-import com.booth.currencyex.repositories.CurrencyExchangeRateRepository;
+import com.booth.currencyex.servicies.CurrencyExchangeRateService;
 import com.booth.currencyex.servicies.PrivatRestService;
 import com.booth.currencyex.servicies.reports.EndOfDayReportService;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -22,7 +22,7 @@ public class OperationalDayController {
     private PrivatRestService privatRestService;
 
     @Autowired
-    private CurrencyExchangeRateRepository currencyExchangeRateRepository;
+    private CurrencyExchangeRateService currencyExchangeRateService;
 
     @Autowired
     private EndOfDayReportService endOfDayReportService;
@@ -35,7 +35,7 @@ public class OperationalDayController {
                 .getPrivatCurrencyList();
         for (CurrencyExchangeRate currencyExchangeRate:
                currencyExchangeRateList) {
-            currencyExchangeRateRepository.save(currencyExchangeRate);
+            currencyExchangeRateService.saveCurrencyExchangeRate(currencyExchangeRate);
         }
         //maybe create some table for operational days?
     }
@@ -44,7 +44,7 @@ public class OperationalDayController {
     @ApiOperation(value = "Закрити операційний день")
     public String closeOperationalDay(){
         //close operational day
-        EndOfDayReportService.EndOfDayReport a = new EndOfDayReportService.EndOfDayReport();
+
         //return report
         return endOfDayReportService.getReport(LocalDate.now());
     }

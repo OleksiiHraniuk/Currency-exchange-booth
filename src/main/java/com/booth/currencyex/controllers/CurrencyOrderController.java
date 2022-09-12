@@ -22,9 +22,6 @@ public class CurrencyOrderController {
     @Autowired
     private CurrencyOrderService currencyOrderService;
 
-    @Autowired
-    private CurrencyOrderRepository currencyOrderRepository;
-
     @PostMapping("/savecurrencyorder/fullorder")
     @ApiOperation(value = "Зберегти заявку на обмін валют")
     public Optional<CurrencyOrder> savedCurrencyOrder(@RequestBody CurrencyOrder currencyOrder){
@@ -51,13 +48,13 @@ public class CurrencyOrderController {
     @GetMapping("/getorder")
     @ApiOperation(value = "отримати заявку на обмін валют")
     public Optional<CurrencyOrder> getCurrencyOrder(@RequestParam Long id){
-        return currencyOrderRepository.findById(id);
+        return currencyOrderService.getCurrencyOrder(id);
     }
 
     @PostMapping("/checkotp")
     @ApiOperation(value = "перевірка пароля OTP")
-    public OtpAnswer checkOtp(@RequestBody Long userid, @RequestBody String otpPassword){
-        Optional<CurrencyOrder> currencyOrder = currencyOrderRepository.findById(userid);
+    public OtpAnswer checkOtp(@RequestBody Long orderId, @RequestBody String otpPassword){
+        Optional<CurrencyOrder> currencyOrder = currencyOrderService.getCurrencyOrder(orderId);
 
         OtpAnswer answer;
 
@@ -72,12 +69,12 @@ public class CurrencyOrderController {
     @DeleteMapping("/deletecurrencyorder/{id}")
     @ApiOperation(value = "видалити заявку на обмін валют")
     public void deleteCurrencyOrder(@PathVariable Long id){
-        Optional<CurrencyOrder> currencyOrderDelete = currencyOrderRepository.findById(id);
+        Optional<CurrencyOrder> currencyOrderDelete = currencyOrderService.getCurrencyOrder(id);
         if(currencyOrderDelete.isPresent()){
             if(currencyOrderDelete.get().getOrderStatus() == OrderStatus.NEW
                     && currencyOrderDelete.get().getClientPhone() != null
                     && currencyOrderDelete.get().getClientPhone().length() > 0){
-                currencyOrderRepository.deleteById(id);
+                currencyOrderService.deleteCurrencyOrder(id);
             }
         }
 
